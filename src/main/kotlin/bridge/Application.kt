@@ -1,5 +1,10 @@
 package bridge
 
+import bridge.game.BridgeGame
+import bridge.view.InputView
+import bridge.view.OutputView
+
 fun main() {
-    // TODO: 프로그램 구현
+    val bridgeGame = BridgeGame(BridgeMaker(BridgeRandomNumberGenerator()), InputView(), OutputView())
+    bridgeGame.play()
 }
