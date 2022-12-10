@@ -3,15 +3,15 @@ package bridge.view
 
 class OutputView {
 
-    fun printMap(bridge: List<String>) {
-        bridge.forEach { bridgeMap -> println(bridgeMap) }
+    fun printMap(bridgeMap: List<String>) {
+        bridgeMap.forEach { bridgeMapMap -> println(bridgeMapMap) }
     }
 
 
 
-    fun printResult(bridge: List<String>, whether: Boolean, attemptsTotal: Int) {
+    fun printResult(bridgeMap: List<String>, whether: String, attemptsTotal: Int) {
         println("최종 게임 결과")
-        println(bridge)
+        printMap(bridgeMap)
         println("게임 성공 여부: $whether")
         println("총 시도한 횟수: $attemptsTotal")
     }
