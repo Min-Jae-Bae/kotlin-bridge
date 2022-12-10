@@ -45,26 +45,37 @@ class BridgeGame(
 
     private fun move() {
         /*TODO: 이동칸 입력 -> 결과 업데이트 -> 출력 -> 라운드 증가*/
+        val inputMove = inputView.readMoving()
+        val moveResult = if (inputMove == "U") Moving.UP else Moving.DOWN
+        val hasPassed = (inputMove == moveResult.command)
 
+        // 통과 정보를 업데이트
+        BridgeGameProcessor.updatePassingInfo(moveResult, hasPassed)
+
+        outputView.printMap(BridgeGameProcessor.updateCurrentMap())
         round++
     }
 
     private fun moveUnable() {
         /*TODO: 지니가는게 실패할 때 -> 커멘드 입력 -> quit, retry 호출*/
-
-        when (inputView.readGameCommand()) {
-            "Q" -> quit()
-            "R" -> retry()
+        if (BridgeGameProcessor.isCrossingFail()) {
+            when (inputView.readGameCommand()) {
+                "Q" -> quit()
+                "R" -> retry()
+            }
         }
     }
 
 
     override fun quit() {
         /*TODO: 성공 or 실패 -> 현재맵 업데이트 -> printResult 출력*/
+        val whetherResult = if (BridgeGameProcessor.isCrossingFail()) "실패" else "성공"
+        outputView.printResult(BridgeGameProcessor.updateCurrentMap(), whetherResult, attemptsTotal)
     }
 
     private fun retry() {
         /*TODO: 깨끗히 지우기 -> round 초기화 -> 시도 횟수 증가*/
+        BridgeGameProcessor.clearPassingInfo()
         round = 0
         attemptsTotal++
     }
@@ -73,7 +84,9 @@ class BridgeGame(
         /*TODO: 라운드, 브릿지 길이가 같으면 (다리 길이는 model 속 -1 해준 값을 bridge에게 전달함 ->
             통과 실패가 없다면 -> 종료*/
         if (round == bridge.size) {
-            /*실패가 없다면 - > quit*/
+            if (!BridgeGameProcessor.isCrossingFail()) {
+                quit()
+            }
         }
     }
 
