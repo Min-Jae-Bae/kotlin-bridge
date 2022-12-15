@@ -1,5 +1,9 @@
 package bridge.view
 
+import bridge.utils.ATTEMPTS_TOTAL_MESSAGE
+import bridge.utils.FINAL_GAME_RESULT_MESSAGE
+import bridge.utils.WHETHER_GAME_SUCCESS_MESSAGE
+
 
 class OutputView {
 
@@ -10,9 +14,10 @@ class OutputView {
 
 
     fun printResult(bridgeMap: List<String>, whether: String, attemptsTotal: Int) {
-        println("최종 게임 결과")
+        println(FINAL_GAME_RESULT_MESSAGE)
         printMap(bridgeMap)
-        println("게임 성공 여부: $whether")
-        println("총 시도한 횟수: $attemptsTotal")
+        println(WHETHER_GAME_SUCCESS_MESSAGE.format(whether))
+        println(ATTEMPTS_TOTAL_MESSAGE.format(attemptsTotal))
     }
+
 }

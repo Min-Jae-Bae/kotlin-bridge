@@ -1,16 +1,18 @@
 package bridge.view.validator
 
+import bridge.utils.*
+
 object InputValidator {
 
     fun validateInvalidSize(): Int {
         while (true) {
             try {
-                println("다리의 길이를 입력해주세요.")
+                println(INPUT_BRIDGE_SIZE_MESSAGE)
                 val bridgeSize = readLine()!!.toInt()
-                require(bridgeSize > 2 && bridgeSize < 21)
+                require(bridgeSize in MIN_BRIDGE_SIZE until MAX_BRIDGE_SIZE)
                 return bridgeSize
             } catch (e: IllegalArgumentException) {
-                println("[ERROR] 유효하지 않은 숫자입니다. 다시 입력해주세요")
+                println(ERROR_INVALID_SIZE_MESSAGE)
                 continue
             }
         }
@@ -19,12 +21,12 @@ object InputValidator {
     fun validateInvalidMoving(): String {
         while (true) {
             try {
-                println("이동할 칸을 선택해주세요. (위: U, 아래: D)")
+                println(SELECT_MOVE_INPUT_MESSAGE)
                 val moving = readLine()!!
-                require(moving == "U" || moving == "D")
+                require(moving == Moving.UP.command || moving == Moving.DOWN.command)
                 return moving
             } catch (e: IllegalArgumentException) {
-                println("[ERROR] 유효하지 않은 숫자입니다. 다시 입력해주세요")
+                println(ERROR_INVALID_MOVE_MESSAGE)
                 continue
             }
         }
@@ -33,12 +35,12 @@ object InputValidator {
     fun validateInvalidGameCommand(): String {
         while (true) {
             try {
-                println("게임을 다시 시도할지 여부를 입력해주세요. (재시도: R, 종료: Q)")
+                println(SELECT_GAME_COMMAND_MESSAGE)
                 val gameCommand = readLine()!!
-                require(gameCommand == "Q" || gameCommand == "R")
+                require(gameCommand == QUIT_COMMAND || gameCommand == RESTART_COMMAND)
                 return gameCommand
             } catch (e: IllegalArgumentException) {
-                println("[ERROR] 유효하지 않은 숫자입니다. 다시 입력해주세요")
+                println(ERROR_INVALID_COMMAND_MESSAGE)
                 continue
             }
         }

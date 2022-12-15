@@ -1,5 +1,9 @@
 package bridge
 
+import bridge.BridgeRandomNumberGenerator.Companion.RANDOM_LOWER_INCLUSIVE
+import bridge.BridgeRandomNumberGenerator.Companion.RANDOM_UPPER_INCLUSIVE
+import bridge.utils.Moving
+
 
 class BridgeMaker(private val bridgeNumberGenerator: BridgeNumberGenerator) {
 
@@ -7,8 +11,8 @@ class BridgeMaker(private val bridgeNumberGenerator: BridgeNumberGenerator) {
         val bridge: MutableList<String> = mutableListOf()
         repeat(size) {
             when (bridgeNumberGenerator.generate()) {
-                1 -> bridge.add("U")
-                0 -> bridge.add("D")
+                RANDOM_UPPER_INCLUSIVE -> bridge.add(Moving.UP.command)
+                RANDOM_LOWER_INCLUSIVE -> bridge.add(Moving.DOWN.command)
             }
         }
         return bridge
