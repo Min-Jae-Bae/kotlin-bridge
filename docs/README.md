@@ -1,4 +1,4 @@
-![BridgeGameClassDiagram](../docs/BridgeGameClassDiagram.puml)
+![BridgeGameClassDiagram](../docs/BridgeGameClassDiagram.png)
 ## 기능 목록
 
 - 자동으로 생성할 다리 길이 입력 기능 
