@@ -1,0 +1,88 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface Game {
+play()
+process()
+quit()
+}
+
+interface BridgeNumberGenerator {
+generate(): Int
+}
+
+enum Moving{
+command: String
+
+UP("U"),
+DOWN("D")
+}
+
+BridgeMaker "다리 길이" <|.. "다리를 생성해라" BridgeGame : 다리 >
+BridgeGame --|> Game
+OutputView "결과" <|.. "결과를 출력해라" BridgeGame : 출력 >
+BridgeGame "입력해라" ..|> InputView : 다리 길이/방향/종료 및 재시작 <
+InputView "유효성 검사를 해라"..|> "입력" InputValidator: 예외 <
+BridgeGame "결과를 만들어라" ..|> "진행/결과" BridgeGameProcessor : 결과 <
+BridgeNumberGenerator <|-- BridgeRandomNumberGenerator
+BridgeRandomNumberGenerator  <|.. "번호를 생성해라" BridgeMaker : 번호 >
+
+class BridgeRandomNumberGenerator {
+generate(): Int
+}
+
+object InputValidator {
++validateInvalidSize(): Int
++validateInvalidMoving(): String
++validateInvalidGameCommand(): String
+}
+
+
+object BridgeGameProcessor {
+-val bridgePassingInfo: MutableList<Pair<Moving, Boolean>>
+-val bridgeList: HashMap<Int, String>
+-val bridgeCurrentMap: MutableList<String>
+--
++clearPassingInfo()
++isCrossingFail(): Boolean
++updatePassingInfo(moving: Moving, hasPassed: Boolean)
+-createCrossingAnswer(moving: Moving, userMoving: String, hasPassed: Boolean): String
+-createResult(userMoving: String): String
++updateCurrentMap(): List<String>
+}
+
+class BridgeMaker {
++makeBridge(size: Int): List<String>
+}
+
+class BridgeGame {
+-inputView: InputView
+-outputView: OutputView
+-bridgeMaker: BridgeMaker
+..전역변수..
+-lateinit var bridge: List<String>
+-var round = FIRST_ROUND
+-var attemptsTotal = FIRST_TRY
+--
+play()
+-initGame()
+process()
+-move()
+-moveUnable()
+quit()
+-retry()
+-completeMission()
+}
+
+class InputView {
++readBridgeSize(): Int
++readMoving(): String
++readGameCommand(): String
+}
+
+
+class OutputView {
++printMap(bridgeMap: List<String>)
++printResult(bridgeMap: List<String>, whether: String, attemptsTotal: Int)
+}
+@enduml
